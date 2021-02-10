@@ -1,0 +1,5 @@
+cat
+dog
+people
+person
+yuh
