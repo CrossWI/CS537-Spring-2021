@@ -1,0 +1,5 @@
+alias ls /bin/ls
+unalias ll
+alias
+ls /bin/ls
+exit

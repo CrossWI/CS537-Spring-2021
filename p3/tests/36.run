@@ -1,0 +1,1 @@
+./mysh tests/36.in | sort --ignore-case

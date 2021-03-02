@@ -1,0 +1,7 @@
+alias ls /bin/ls tests
+alias whoami /usr/bin/whoami
+alias
+unalias whoami
+alias
+ls
+exit

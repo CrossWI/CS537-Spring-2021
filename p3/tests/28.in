@@ -1,0 +1,5 @@
+alias ls /bin/ls
+alias
+alias ls
+unalias ls
+alias

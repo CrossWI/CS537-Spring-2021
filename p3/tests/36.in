@@ -1,0 +1,21 @@
+alias a1 /bin/ls tests/36.desc
+alias a2 /bin/cat tests/36.desc
+alias a3 /bin/mkdir tests-out/tmp
+alias a4 /bin/rm -rf tests-out/tmp
+alias a5 /usr/bin/touch tests/36.desc
+a1
+a2
+a3
+a4
+a5
+alias
+unalias a5
+a5
+unalias a4
+unalias a2
+a2
+a4
+unalias a1
+unalias a3
+a1
+a3

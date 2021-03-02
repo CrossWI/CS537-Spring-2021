@@ -1,0 +1,4 @@
+/bin/ls -a -t -r -f tests/does-not-exist > tests-out/output27
+/bin/rm -f tests-out/output27
+/bin/echo -e This line is not completely \cprinted.
+This line is not completely exit

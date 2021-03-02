@@ -1,0 +1,36 @@
+a1
+a1
+a1 /bin/ls tests/37.desc
+a1 /bin/ls tests/37.desc
+a2
+a2
+a2
+a2 /bin/cat tests/37.desc
+a2 /bin/cat tests/37.desc
+a3
+a3
+a3
+a3 /bin/mkdir tests-out/tmp
+a3 /bin/mkdir tests-out/tmp
+a4
+a4
+a4 /bin/rm -rf tests-out/tmp
+a5
+a5
+a5 /usr/bin/touch tests/37.desc
+a5 /usr/bin/touch tests/37.desc
+alias
+alias
+alias a1 /bin/ls tests/37.desc
+alias a2 /bin/cat tests/37.desc
+alias a2 /usr/bin/touch tests/37.desc
+alias a3 /bin/mkdir tests-out/tmp
+alias a4 /bin/rm -rf tests-out/tmp
+alias a5 /usr/bin/touch tests/37.desc
+Creates multiple aliases and runs them, then removes those aliases and tries to run them
+tests/37.desc
+unalias a1
+unalias a2
+unalias a3
+unalias a4
+unalias a5
