@@ -2,4 +2,5 @@ alias ls /bin/ls
 unalias ls ls ls ls
 unalias ls ls
 alias
+ls /bin/ls
 exit
