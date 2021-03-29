@@ -1,0 +1,156 @@
+#include "types.h"
+#include "x86.h"
+#include "defs.h"
+#include "date.h"
+#include "param.h"
+#include "memlayout.h"
+#include "mmu.h"
+#include "proc.h"
+#include "pstat.h"
+
+int sys_fork(void)
+{
+	return fork();
+}
+
+int sys_exit(void)
+{
+	exit();
+	return 0; // not reached
+}
+
+int sys_wait(void)
+{
+	return wait();
+}
+
+int sys_kill(void)
+{
+	int pid;
+
+	if (argint(0, &pid) < 0)
+		return -1;
+	return kill(pid);
+}
+
+int sys_getpid(void)
+{
+	return myproc()->pid;
+}
+
+int sys_sbrk(void)
+{
+	int addr;
+	int n;
+
+	if (argint(0, &n) < 0)
+		return -1;
+	addr = myproc()->sz;
+	if (growproc(n) < 0)
+		return -1;
+	return addr;
+}
+
+int sys_sleep(void)
+{
+	int n; // ticks to sleep
+	uint ticks0;
+
+	if (argint(0, &n) < 0)
+		return -1;
+
+	acquire(&tickslock);
+	ticks0 = ticks;
+
+	// set some fields in myproc
+	myproc()->sleepdeadline = n + ticks0;
+	myproc()->activesleepticks = n;
+	myproc()->activeticks = 0;
+
+	if (myproc()->killed)
+	{
+		release(&tickslock);
+		return -1;
+	}
+	sleep(&ticks, &tickslock);
+
+	release(&tickslock);
+	return 0;
+}
+
+// return how many clock tick interrupts have occurred
+// since start.
+int sys_uptime(void)
+{
+	uint xticks;
+
+	acquire(&tickslock);
+	xticks = ticks;
+	release(&tickslock);
+	return xticks;
+}
+
+/*
+ * Sets slice for desired process
+ */
+int sys_setslice(void)
+{
+	int pid;
+	int slice;
+	if (argint(0, &pid) < 0 || argint(1, &slice) < 0)
+	{
+		return -1;
+	}
+	else
+	{
+		return setslice(pid, slice);
+	}
+}
+
+/*
+ * Retrieves pid of desired process
+ */
+int sys_getslice(void)
+{
+	int pid;
+	if (argint(0, &pid) < 0)
+	{
+		return -1;
+	}
+	else
+	{
+		return getslice(pid);
+	}
+}
+
+/*
+ * Same as fork but with timeslice input
+ */
+int sys_fork2(void)
+{
+	int slice;
+	if (argint(0, &slice) < 0) // slice is invalid
+	{
+		return -1;
+	}
+	else
+	{
+		return fork2(slice);
+	}
+}
+
+/*
+ * Retrieves info from pstat
+ */
+int sys_getpinfo(void)
+{
+	struct pstat *ps;
+	if (argptr(0, (void *)&ps, sizeof(*ps)) < 0) // ps is invalid
+	{
+		return -1;
+	}
+	else
+	{
+		return getpinfo(ps);
+	}
+}
