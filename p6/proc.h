@@ -8,7 +8,6 @@ struct cpu {
   int ncli;                    // Depth of pushcli nesting.
   int intena;                  // Were interrupts enabled before pushcli?
   struct proc *proc;           // The process running on this cpu or null
-  struct proc *next;		   // The next prcoess in the schedule
 };
 
 extern struct cpu cpus[NCPU];
@@ -50,15 +49,8 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  struct proc *next;  	// pointer to next one
-  int timeslice;	    // used for allocated time_slice
-  int compticks;  	    // number of compensation ticks this process has used
-  int schedticks; 	    // total number of timer ticks this process has been scheduled
-  int sleepticks; 	  	// total number of ticks during which this process was blocked
-  int switches;    	    // total num times this process has been scheduled
-  uint sleepdeadline; 	// target wake up time
-  int activeticks;		// track how many ticks this process has used since being awake
-  int activesleepticks; // track how many ticks this process has been sleeping 
+  char *clockqueue[CLOCKSIZE];  // process's clockqueue
+  int clockhand;				// int value of where the hand is in the queue
 };
 
 // Process memory is laid out contiguously, low addresses first:
